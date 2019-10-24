@@ -1,12 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activities.MainAppActivity">
-<FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fg"/>
+    android:background="@drawable/zvezdnoe_nebo_noch_zvezdy_115042_1080x1920">
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        tools:context=".ui.activities.MainAppActivity"
+        android:id="@+id/toolbar"
+        >
+        <androidx.appcompat.widget.Toolbar
+
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="#2e0ee3"
+            >
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_menu_black_24dp"
+            android:background="@android:color/transparent"
+            />
+        <TextView
+            android:gravity="center"
+            android:layout_marginLeft="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="Bonch Dev Messenger"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-black"
+            android:textSize="24dp"
+            />
+        </androidx.appcompat.widget.Toolbar>
+
 </LinearLayout>
+    <FrameLayout
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fg"/>
+
+</RelativeLayout>

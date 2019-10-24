@@ -2,6 +2,7 @@ package bonch.dev.school.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.DialogFragment
 import bonch.dev.school.R
 import bonch.dev.school.ui.fragments.ChatFragment
 import bonch.dev.school.ui.fragments.PasswordFragment
@@ -20,7 +21,7 @@ val fm=supportFragmentManager
         fm.beginTransaction().replace(R.id.fg,profileFragment).addToBackStack("fragment_chat").commit()
     }
     fun passFrag(){
-        val passFragment=PasswordFragment()
-        fm.beginTransaction().replace(R.id.fg,passFragment).commit()
+        val dialog=PasswordFragment()
+        dialog.show(fm.beginTransaction(),"dialog")
     }
 }
