@@ -5,25 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/message_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:stackFromEnd="true"
+        app:reverseLayout="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"/>
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
+        style="@style/rl_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        style="@style/rl_style"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/message_recycler_view"
         >
 
         <EditText
             android:id="@+id/message_et"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:minHeight="50dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/send_message_button"
             android:background="@null"
             android:maxHeight="200dp"
-            android:layout_toLeftOf="@id/send_message_button" />
+            android:minHeight="50dp" />
 
         <ImageButton
             android:id="@+id/send_message_button"
