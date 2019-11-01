@@ -51,7 +51,7 @@ class ChatFragment:Fragment() {
                 Toast.makeText(context,"Пустая строка",Toast.LENGTH_SHORT).show()
             }
            else {
-                messageList.add(Message(1,messageet.text.toString(),Date(),true))
+                messageList.add(Message(1,messageet.text.toString().trim(),Date(),true))
                 messageet.setText("")
                 messageRecycler.scrollToPosition(message_recycler_items(messageList).itemCount-1)
 
