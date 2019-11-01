@@ -22,8 +22,7 @@ class ChatFragment:Fragment() {
     private lateinit var messageList:MutableList<Message>
     private lateinit var lm:LinearLayoutManager
     private lateinit var messageRecycler:RecyclerView
-    var listState:Parcelable?=null
-    var bundle=Bundle()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,19 +58,4 @@ class ChatFragment:Fragment() {
         }
         return view
     }
-
-    override fun onPause() {
-        super.onPause()
-        listState=messageRecycler.layoutManager?.onSaveInstanceState()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (listState!=null){
-        messageRecycler.layoutManager?.onRestoreInstanceState(listState)
-        }
-    }
-
-
 }
