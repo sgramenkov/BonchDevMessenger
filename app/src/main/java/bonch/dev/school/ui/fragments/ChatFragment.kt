@@ -1,6 +1,7 @@
 package bonch.dev.school.ui.fragments
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,21 +19,29 @@ import bonch.dev.school.ui.models.MessageLab
 import java.util.*
 
 class ChatFragment:Fragment() {
+    private lateinit var messageList:MutableList<Message>
+    private lateinit var lm:LinearLayoutManager
+    private lateinit var messageRecycler:RecyclerView
+    var listState:Parcelable?=null
+    var bundle=Bundle()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val messageList=MessageLab().messageList
+        messageList=MessageLab().messageList
         val view = inflater.inflate(R.layout.fragment_chat,container,false)
         val sendButton:ImageButton=view.findViewById(R.id.send_message_button)
         var messageet:EditText=view.findViewById(R.id.message_et)
-        val messageRecycler:RecyclerView=view.findViewById(R.id.message_recycler_view)
-        messageRecycler.adapter= message_recycler_items(messageList)
-        val lm = LinearLayoutManager(context)
+        messageRecycler=view.findViewById(R.id.message_recycler_view)
+
+        lm = LinearLayoutManager(context)
         lm.scrollToPosition(message_recycler_items(messageList).itemCount-1)
+
         messageRecycler.layoutManager= lm
+        messageRecycler.adapter= message_recycler_items(messageList)
         sendButton.setOnClickListener(){
+
             var count=0
             for (k in messageet.text.toString()){
                 if (k.isWhitespace())
@@ -44,9 +53,25 @@ class ChatFragment:Fragment() {
            else {
                 messageList.add(Message(1,messageet.text.toString(),Date(),true))
                 messageet.setText("")
+                messageRecycler.scrollToPosition(message_recycler_items(messageList).itemCount-1)
 
             }
         }
         return view
     }
+
+    override fun onPause() {
+        super.onPause()
+        listState=messageRecycler.layoutManager?.onSaveInstanceState()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (listState!=null){
+        messageRecycler.layoutManager?.onRestoreInstanceState(listState)
+        }
+    }
+
+
 }
