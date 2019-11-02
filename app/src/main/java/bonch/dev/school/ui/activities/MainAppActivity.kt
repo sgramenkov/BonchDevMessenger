@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import bonch.dev.school.ui.fragments.ChatFragment
+import bonch.dev.school.ui.fragments.PasswordFragment
 import bonch.dev.school.ui.fragments.ProfileFragment
 import bonch.dev.school.ui.message_recycler_items
 import com.google.android.material.navigation.NavigationView
@@ -52,6 +53,10 @@ lateinit var toolbar:Toolbar
         }
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+    fun passFrag(){
+        val dialog=PasswordFragment()
+        dialog.show(supportFragmentManager,"dialog")
     }
 
 }

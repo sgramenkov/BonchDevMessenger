@@ -1,5 +1,6 @@
 package bonch.dev.school.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -17,12 +18,13 @@ import bonch.dev.school.ui.message_recycler_items
 import bonch.dev.school.ui.models.Message
 import bonch.dev.school.ui.models.MessageLab
 import java.util.*
+import java.util.ResourceBundle.getBundle
 
 class ChatFragment:Fragment() {
     private lateinit var messageList:MutableList<Message>
     private lateinit var lm:LinearLayoutManager
     private lateinit var messageRecycler:RecyclerView
-
+    val intent= Intent()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,4 +60,28 @@ class ChatFragment:Fragment() {
         }
         return view
     }
+
+    override fun onPause() {
+        super.onPause()
+       val state=messageRecycler.layoutManager!!.onSaveInstanceState()
+        val bundle= Bundle()
+        bundle.putParcelable("rv_state",state)
+        Log.e("ERROR",bundle.toString())
+
+        intent.putExtra("rv_state",bundle)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val bundle=intent.getBundleExtra("rv_state")
+        if (bundle!=null){
+            val state:Parcelable?= bundle.getParcelable("rv_state")
+            messageRecycler.layoutManager!!.onRestoreInstanceState(state)
+        }
+    }
+
+
+
+
+
 }
