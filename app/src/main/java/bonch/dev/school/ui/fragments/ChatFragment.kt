@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import bonch.dev.school.R
 import bonch.dev.school.ui.message_recycler_items
 import bonch.dev.school.ui.models.Message
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.ResourceBundle.getBundle
 
@@ -23,6 +24,7 @@ class ChatFragment:Fragment() {
     private lateinit var messageList:MutableList<Message>
     private lateinit var lm:LinearLayoutManager
     private lateinit var messageRecycler:RecyclerView
+    private var recyclerViewStateBundle=Bundle()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,7 +56,7 @@ class ChatFragment:Fragment() {
             }
            else {
 
-                messageList.add(Message(1,messageet.text.toString().trim(),Date(),true))
+                messageList.add(Message(1,messageet.text.toString().trim(),SimpleDateFormat("hh:mm:ss").format(Date()),true))
                 messageet.setText("")
                 messageRecycler.scrollToPosition(message_recycler_items(messageList).itemCount-1)
 
@@ -63,5 +65,19 @@ class ChatFragment:Fragment() {
         return view
     }
 
+    override fun onPause() {
+        super.onPause()
+        recyclerViewStateBundle = Bundle().apply { putParcelableArrayList("saveData",ArrayList<Parcelable>(messageList))  }
+        Log.e("MSG",messageList.toString())
+    }
 
-}
+    override fun onResume() {
+        super.onResume()
+        if (recyclerViewStateBundle!=null && recyclerViewStateBundle.get("saveData")!=null){
+            messageList.clear()
+            messageList.addAll(recyclerViewStateBundle.get("saveData") as MutableList<Message>)
+
+            Log.d("onPause","${recyclerViewStateBundle.get("saveData")}")
+        }
+    }
+    }

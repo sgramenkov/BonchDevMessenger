@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import bonch.dev.school.R
 import bonch.dev.school.ui.models.Message
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -47,7 +48,7 @@ class message_recycler_items(val messageList:MutableList<Message>):RecyclerView.
        val showDate:TextView=view.findViewById(R.id.sent_message_date)
         fun bind(position: Int){
             showText.text="${messageList[position].messageText}"
-            showDate.text="${Date()}"
+            showDate.text="${SimpleDateFormat("hh:mm:ss").format(Date())}"
         }
 
     }
@@ -57,7 +58,7 @@ class message_recycler_items(val messageList:MutableList<Message>):RecyclerView.
         val senderName:TextView=view.findViewById(R.id.other_message_sender_name)
         fun bind(position: Int){
             showText.text="${messageList[position].messageText}"
-            showDate.text="${Date()}"
+            showDate.text="${SimpleDateFormat("hh:mm:ss").format(Date())}"
             senderName.text="Имя другого пользователя"
         }
     }
