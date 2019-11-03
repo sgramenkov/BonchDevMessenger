@@ -49,7 +49,7 @@ lateinit var toolbar:Toolbar
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ChatFragment()).commit()
         }
         if(p0.itemId==R.id.profile_fragment){
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).addToBackStack("fragment_chat").commit()
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

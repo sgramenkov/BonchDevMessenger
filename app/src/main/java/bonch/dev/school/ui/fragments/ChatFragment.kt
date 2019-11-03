@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import bonch.dev.school.R
 import bonch.dev.school.ui.message_recycler_items
 import bonch.dev.school.ui.models.Message
-import bonch.dev.school.ui.models.MessageLab
 import java.util.*
 import java.util.ResourceBundle.getBundle
 
@@ -24,13 +23,12 @@ class ChatFragment:Fragment() {
     private lateinit var messageList:MutableList<Message>
     private lateinit var lm:LinearLayoutManager
     private lateinit var messageRecycler:RecyclerView
-    val intent= Intent()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        messageList=MessageLab().messageList
+        messageList= Message.MessageLab().messageList
         val view = inflater.inflate(R.layout.fragment_chat,container,false)
         val sendButton:ImageButton=view.findViewById(R.id.send_message_button)
         var messageet:EditText=view.findViewById(R.id.message_et)
@@ -48,10 +46,14 @@ class ChatFragment:Fragment() {
                 if (k.isWhitespace())
                     count++
                 }
-            if (count==messageet.text.length){
+            if (count==messageet.text.length)
+            {
+
                 Toast.makeText(context,"Пустая строка",Toast.LENGTH_SHORT).show()
+
             }
            else {
+
                 messageList.add(Message(1,messageet.text.toString().trim(),Date(),true))
                 messageet.setText("")
                 messageRecycler.scrollToPosition(message_recycler_items(messageList).itemCount-1)
@@ -60,28 +62,6 @@ class ChatFragment:Fragment() {
         }
         return view
     }
-
-    override fun onPause() {
-        super.onPause()
-       val state=messageRecycler.layoutManager!!.onSaveInstanceState()
-        val bundle= Bundle()
-        bundle.putParcelable("rv_state",state)
-        Log.e("ERROR",bundle.toString())
-
-        intent.putExtra("rv_state",bundle)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val bundle=intent.getBundleExtra("rv_state")
-        if (bundle!=null){
-            val state:Parcelable?= bundle.getParcelable("rv_state")
-            messageRecycler.layoutManager!!.onRestoreInstanceState(state)
-        }
-    }
-
-
-
 
 
 }
