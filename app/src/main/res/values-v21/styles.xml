@@ -11,6 +11,9 @@
     <style name="Buttons">
         <item name="android:background">@drawable/rounded_shape</item>
     </style>
+    <style name="chai_item">
+        <item name="android:background">@drawable/chat_item</item>
+    </style>
 
     <style name="send_button">
         <item name="android:background">@drawable/send_button</item>

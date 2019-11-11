@@ -16,49 +16,58 @@ import androidx.recyclerview.widget.RecyclerView
 import bonch.dev.school.R
 import bonch.dev.school.ui.message_recycler_items
 import bonch.dev.school.ui.models.Message
+import kotlinx.android.synthetic.main.fragment_chat.*
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.ResourceBundle.getBundle
 
-class ChatFragment:Fragment() {
-    private lateinit var messageList:MutableList<Message>
-    private lateinit var lm:LinearLayoutManager
-    private lateinit var messageRecycler:RecyclerView
-    private var recyclerViewStateBundle=Bundle()
+class ChatFragment : Fragment() {
+    private  var messageList = Message.MessageLab().messageList
+    private lateinit var lm: LinearLayoutManager
+    private lateinit var messageRecycler: RecyclerView
+    private var recyclerViewStateBundle = Bundle()
+     var adapter=message_recycler_items(messageList)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        messageList= Message.MessageLab().messageList
-        val view = inflater.inflate(R.layout.fragment_chat,container,false)
-        val sendButton:ImageButton=view.findViewById(R.id.send_message_button)
-        var messageet:EditText=view.findViewById(R.id.message_et)
-        messageRecycler=view.findViewById(R.id.message_recycler_view)
+
+        val view = inflater.inflate(R.layout.fragment_chat, container, false)
+        val sendButton: ImageButton = view.findViewById(R.id.send_message_button)
+        var messageet: EditText = view.findViewById(R.id.message_et)
+        messageRecycler = view.findViewById(R.id.message_recycler_view)
+        messageList = mBundleRecyclerViewState?.getParcelableArrayList<Message>("CHATS") ?: messageList
+        adapter = message_recycler_items(messageList)
+        Log.e("FragmentOnCView", "${messageList}")
 
         lm = LinearLayoutManager(context)
-        lm.scrollToPosition(message_recycler_items(messageList).itemCount-1)
+        lm.scrollToPosition(message_recycler_items(messageList).itemCount - 1)
 
-        messageRecycler.layoutManager= lm
-        messageRecycler.adapter= message_recycler_items(messageList)
-        sendButton.setOnClickListener(){
+        messageRecycler.layoutManager = lm
+        messageRecycler.adapter = message_recycler_items(messageList)
+        sendButton.setOnClickListener() {
 
-            var count=0
-            for (k in messageet.text.toString()){
+            var count = 0
+            for (k in messageet.text.toString()) {
                 if (k.isWhitespace())
                     count++
-                }
-            if (count==messageet.text.length)
-            {
-
-                Toast.makeText(context,"Пустая строка",Toast.LENGTH_SHORT).show()
-
             }
-           else {
+            if (count == messageet.text.length) {
 
-                messageList.add(Message(1,messageet.text.toString().trim(),SimpleDateFormat("hh:mm:ss").format(Date()),true))
+                Toast.makeText(context, "Пустая строка", Toast.LENGTH_SHORT).show()
+
+            } else {
+
+                messageList.add(
+                    Message(
+                        1,
+                        messageet.text.toString().trim(),
+                        SimpleDateFormat("hh:mm:ss").format(Date()),
+                        true
+                    )
+                )
                 messageet.setText("")
-                messageRecycler.scrollToPosition(message_recycler_items(messageList).itemCount-1)
+                messageRecycler.scrollToPosition(message_recycler_items(messageList).itemCount - 1)
 
             }
         }
@@ -67,17 +76,30 @@ class ChatFragment:Fragment() {
 
     override fun onPause() {
         super.onPause()
-        recyclerViewStateBundle = Bundle().apply { putParcelableArrayList("saveData",ArrayList<Parcelable>(messageList))  }
-        Log.e("MSG",messageList.toString())
+
+        mBundleRecyclerViewState = Bundle()
+        mBundleRecyclerViewState?.putParcelableArrayList("CHATS", ArrayList<Parcelable>(messageList))
     }
 
     override fun onResume() {
         super.onResume()
-        if (recyclerViewStateBundle!=null && recyclerViewStateBundle.get("saveData")!=null){
-            messageList.clear()
-            messageList.addAll(recyclerViewStateBundle.get("saveData") as MutableList<Message>)
 
-            Log.d("onPause","${recyclerViewStateBundle.get("saveData")}")
+        if (mBundleRecyclerViewState != null) {
+            messageList = mBundleRecyclerViewState?.getParcelableArrayList<Message>("CHATS")!!
+            adapter.notifyItemInserted(messageList.size - 1)
+            message_recycler_view.scrollToPosition(messageList.size - 1)
         }
     }
+
+    companion object {
+
+        private var mBundleRecyclerViewState: Bundle? = null
+
+        @JvmStatic
+        fun newInstance() = ChatFragment()
     }
+
+
+
+
+}
