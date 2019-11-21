@@ -48,7 +48,7 @@ class message_recycler_items(val messageList:MutableList<Message>):RecyclerView.
        val showDate:TextView=view.findViewById(R.id.sent_message_date)
         fun bind(position: Int){
             showText.text="${messageList[position].messageText}"
-            showDate.text="${SimpleDateFormat("hh:mm:ss").format(Date())}"
+            showDate.text="${messageList[position].sentDate}"
         }
 
     }
@@ -58,7 +58,7 @@ class message_recycler_items(val messageList:MutableList<Message>):RecyclerView.
         val senderName:TextView=view.findViewById(R.id.other_message_sender_name)
         fun bind(position: Int){
             showText.text="${messageList[position].messageText}"
-            showDate.text="${SimpleDateFormat("hh:mm:ss").format(Date())}"
+            showDate.text="${messageList[position].sentDate}"
             senderName.text="Имя другого пользователя"
         }
     }

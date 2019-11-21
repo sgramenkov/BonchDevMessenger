@@ -17,12 +17,7 @@ data class Message( val messageId: Int,val messageText: String,val sentDate: Str
         init {
             messageList = mutableListOf()
 
-            for (i in 1..20) {
-                val usermessage = Message(i, "Текст от другого пользователя #$i", SimpleDateFormat("hh:mm:ss").format(Date()), false)
 
-                messageList.add(usermessage)
-
-            }
         }
     }
 
